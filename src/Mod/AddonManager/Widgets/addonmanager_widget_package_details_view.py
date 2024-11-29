@@ -90,6 +90,9 @@ class PackageDetailsView(QtWidgets.QWidget):
         super().__init__(parent)
         self.button_bar = None
         self.readme_browser = None
+        self.changelog_browser = None
+        self.contributing_browser = None
+        self.license_browser = None
         self.message_label = None
         self.location_label = None
         self.url_label = None
@@ -106,7 +109,6 @@ class PackageDetailsView(QtWidgets.QWidget):
     def _setup_ui(self):
         self.vertical_layout = QtWidgets.QVBoxLayout(self)
         self.button_bar = WidgetAddonButtons(self)
-        self.readme_browser = WidgetReadmeBrowser(self)
         self.message_label = QtWidgets.QLabel(self)
         self.location_label = QtWidgets.QLabel(self)
         self.url_label = QtWidgets.QLabel(self)
@@ -116,7 +118,7 @@ class PackageDetailsView(QtWidgets.QWidget):
         self.vertical_layout.addWidget(self.message_label)
         self.vertical_layout.addWidget(self.location_label)
         self.vertical_layout.addWidget(self.url_label)
-        self.vertical_layout.addWidget(self.readme_browser)
+        self.vertical_layout.addWidget(self.tab_widget)
         self.button_bar.hide()  # Start with no bar
 
     def set_location(self, location: Optional[str]):
