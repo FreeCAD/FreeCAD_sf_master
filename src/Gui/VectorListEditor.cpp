@@ -142,11 +142,12 @@ void Gui::VectorTableModel::copyToClipboard() const
 {
     QString clipboardText;
     QTextStream stream(&clipboardText);
+    int precision = std::max(decimals, 12);
 
     for (const auto& vector : vectors) {
-        stream << QString::number(vector.x, 'f', decimals) << '\t'
-               << QString::number(vector.y, 'f', decimals) << '\t'
-               << QString::number(vector.z, 'f', decimals) << '\n';
+        stream << QString::number(vector.x, 'f', precision) << '\t'
+               << QString::number(vector.y, 'f', precision) << '\t'
+               << QString::number(vector.z, 'f', precision) << '\n';
     }
 
     QApplication::clipboard()->setText(clipboardText);
