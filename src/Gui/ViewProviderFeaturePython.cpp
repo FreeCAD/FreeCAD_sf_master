@@ -76,6 +76,8 @@ ViewProviderFeaturePythonImp::~ViewProviderFeaturePythonImp()
     catch (Py::Exception& e) {
         e.clear();
     }
+
+    this->selectionObserver.~SelectionObserverPythonHandler();
 }
 
 void ViewProviderFeaturePythonImp::init(PyObject *pyobj) {
@@ -87,7 +89,7 @@ void ViewProviderFeaturePythonImp::init(PyObject *pyobj) {
 
     FC_PY_VIEW_OBJECT
 
-    this->selectionObserver.init(Py::Object(pyobj, false));
+    this->selectionObserver.init(pyobj);
 }
 
 #define FC_PY_CALL_CHECK(_name) _FC_PY_CALL_CHECK(_name,return(NotImplemented))
