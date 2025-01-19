@@ -33,7 +33,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <boost_signals2.hpp>
+#include <libfastsignals/signal.h>
 #include <QString>
 
 // ----------------------------------------------------------------------------
@@ -250,12 +250,10 @@ private:
 
 class ConnectionBlocker
 {
-    using Connection = boost::signals2::connection;
-    using ConnectionBlock = boost::signals2::shared_connection_block;
-    ConnectionBlock blocker;
+    fastsignals::shared_connection_block blocker;
 
 public:
-    ConnectionBlocker(Connection& c)
+    ConnectionBlocker(fastsignals::advanced_connection& c)
         : blocker(c)
     {}
     ~ConnectionBlocker() = default;

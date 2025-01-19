@@ -27,7 +27,7 @@
 #include <QObject>
 #include <QPointer>
 
-#include <boost_signals2.hpp>
+#include <libfastsignals/signal.h>
 
 #include <App/PropertyUnits.h>
 #include <Gui/ViewProviderDocumentObject.h>
@@ -100,7 +100,7 @@ public:
 
     //slots & connections
     void onGuiRepaint(const TechDraw::DrawPage* dp);
-    using Connection = boost::signals2::scoped_connection;
+    using Connection = fastsignals::scoped_connection;
     Connection connectGuiRepaint;
 
     void unsetEdit(int ModNum) override;

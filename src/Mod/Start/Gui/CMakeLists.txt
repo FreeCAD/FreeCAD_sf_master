@@ -23,6 +23,7 @@
 
 include_directories(
         ${CMAKE_CURRENT_BINARY_DIR}
+        ${FastSignals_INCLUDE_DIRS}
         ${Boost_INCLUDE_DIRS}
         ${COIN3D_INCLUDE_DIRS}
         ${PYTHON_INCLUDE_DIRS}

@@ -89,7 +89,7 @@
 
 // Boost
 #include <boost_graph_adjacency_list.hpp>
-#include <boost_signals2.hpp>
+#include <libfastsignals/signal.h>
 
 #include <boost/program_options.hpp>
 #include <boost/regex.hpp>

@@ -161,7 +161,7 @@ protected:
     SoSeparator* pLineSeparatorSecondary;
 
 private:
-    boost::signals2::connection _mVisibilityChangedConnection;
+    fastsignals::connection _mVisibilityChangedConnection;
 };
 
 

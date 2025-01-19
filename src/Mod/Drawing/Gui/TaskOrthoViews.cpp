@@ -684,7 +684,7 @@ void OrthoViews::del_view(int rel_x, int rel_y)  // remove a view from the layou
 
     if (num > 0) {
         {
-            boost::signals2::shared_connection_block blocker(connectDocumentDeletedObject);
+            fastsignals::shared_connection_block blocker(connectDocumentDeletedObject);
             views[num]->deleteme();
             delete views[num];
             views.erase(views.begin() + num);
@@ -710,7 +710,7 @@ void OrthoViews::del_view(int rel_x, int rel_y)  // remove a view from the layou
 
 void OrthoViews::del_all()
 {
-    boost::signals2::shared_connection_block blocker(connectDocumentDeletedObject);
+    fastsignals::shared_connection_block blocker(connectDocumentDeletedObject);
     for (int i = views.size() - 1; i >= 0; i--)  // count downwards to delete from back
     {
         views[i]->deleteme();

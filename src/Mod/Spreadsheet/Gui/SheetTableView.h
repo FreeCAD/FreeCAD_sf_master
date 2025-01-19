@@ -124,7 +124,7 @@ protected:
 
     QTimer timer;
 
-    boost::signals2::scoped_connection cellSpanChangedConnection;
+    fastsignals::scoped_connection cellSpanChangedConnection;
     std::set<App::CellAddress> spanChanges;
 };
 

@@ -90,7 +90,7 @@ namespace PartGui {
 class FaceAppearances::Private
 {
 public:
-    using Connection = boost::signals2::connection;
+    using Connection = fastsignals::connection;
     Ui_TaskFaceAppearances* ui;
     QPointer<Gui::View3DInventorViewer> view;
     ViewProviderPartExt* vp;

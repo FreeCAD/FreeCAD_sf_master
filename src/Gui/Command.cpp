@@ -1478,7 +1478,7 @@ bool PythonCommand::isChecked() const
     }
 }
 
-void PythonCommand::onActionInit() const
+void PythonCommand::onActionInit()
 {
     try {
         Base::PyGILStateLocker lock;
@@ -1803,7 +1803,7 @@ bool PythonGroupCommand::hasDropDownMenu() const
     }
 }
 
-void PythonGroupCommand::onActionInit() const
+void PythonGroupCommand::onActionInit()
 {
     try {
         Base::PyGILStateLocker lock;

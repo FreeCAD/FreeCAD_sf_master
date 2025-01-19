@@ -24,8 +24,8 @@
 #include "PreCompiled.h"
 
 #ifndef _PreComp_
-#include <boost_signals2.hpp>
-#include <boost/signals2/connection.hpp>
+#include <libfastsignals/signal.h>
+#include <libfastsignals/connection.h>
 #endif
 
 #include <climits>
