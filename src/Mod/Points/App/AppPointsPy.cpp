@@ -295,8 +295,7 @@ private:
                 pcFeature->purgeTouched();
             }
             else {
-                Points::Feature* pcFeature = static_cast<Points::Feature*>(
-                    pcDoc->addObject("Points::Feature", file.fileNamePure().c_str()));
+                auto* pcFeature = pcDoc->addObject<Points::Feature>(file.fileNamePure().c_str());
                 pcFeature->Points.setValue(reader->getPoints());
                 pcDoc->recomputeFeature(pcFeature);
                 pcFeature->purgeTouched();
