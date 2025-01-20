@@ -32,7 +32,7 @@
 #include <Gui/DlgMaterialPropertiesImp.h>
 #include <Gui/DockWindowManager.h>
 #include <Gui/Document.h>
-#include <Gui/Selection.h>
+#include <Gui/Selection/Selection.h>
 #include <Gui/ViewProviderGeometryObject.h>
 #include <Gui/WaitCursor.h>
 
