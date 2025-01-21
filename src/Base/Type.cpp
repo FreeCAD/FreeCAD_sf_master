@@ -116,8 +116,7 @@ string Type::getModuleName(const char* ClassName)
     string_view classNameView(ClassName);
     auto pos = classNameView.find("::");
 
-    return pos != string_view::npos ? string(classNameView.substr(0, pos))
-                                    : string();
+    return pos != string_view::npos ? string(classNameView.substr(0, pos)) : string();
 }
 
 Type Type::badType()
