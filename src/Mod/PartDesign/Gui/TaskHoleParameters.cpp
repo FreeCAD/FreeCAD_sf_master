@@ -451,23 +451,26 @@ void TaskHoleParameters::holeCutTypeChanged(int index)
 void TaskHoleParameters::setCutPixmap()
 {
     auto hole = getObject<PartDesign::Hole>();
-    std::string HoleCutTypeString = hole->HoleCutType.getValueAsString();
-    bool DepthisDimension = (
+    const std::string holeCutTypeString = hole->HoleCutType.getValueAsString();
+    const std::string threadTypeString = hole->ThreadType.getValueAsString();
+    bool isAngled = (
         std::string(hole->DepthType.getValueAsString()) == "Dimension"
+        && ui->DrillPointAngled->isChecked()
     );
-    if (HoleCutTypeString == "None") {
-        if (ui->DrillPointAngled->isChecked() && DepthisDimension) {
-            ui->cutDiagram->setPixmap(
-                QPixmap(QString::fromUtf8(":/images/hole_none_angled.svg"))
-            );
-        } else {
-            ui->cutDiagram->setPixmap(
-                QPixmap(QString::fromUtf8(":/images/hole_none_flat.svg"))
-            );
-        }
-    }
-    else if (HoleCutTypeString == "Counterbore") {
-        if (ui->DrillPointAngled->isChecked() && DepthisDimension) {
+    bool isCountersink = (
+        holeCutTypeString == "Countersink"
+        || hole->isDynamicCountersink(threadTypeString, holeCutTypeString)
+    );
+    bool isCounterbore = (
+        holeCutTypeString == "Counterbore"
+        || hole->isDynamicCounterbore(threadTypeString, holeCutTypeString)
+    );
+    bool isCounterdrill = (
+        holeCutTypeString == "Counterdrill"
+    );
+
+    if (isCounterbore) {
+        if (isAngled) {
             ui->cutDiagram->setPixmap(
                 QPixmap(QString::fromUtf8(":/images/hole_counterbore_angled.svg"))
             );
@@ -477,19 +480,8 @@ void TaskHoleParameters::setCutPixmap()
             );
         }
     }
-    else if (HoleCutTypeString == "Counterdrill") {
-        if (ui->DrillPointAngled->isChecked() && DepthisDimension) {
-            ui->cutDiagram->setPixmap(
-                QPixmap(QString::fromUtf8(":/images/hole_counterdrill_angled.svg"))
-            );
-        } else {
-            ui->cutDiagram->setPixmap(
-                QPixmap(QString::fromUtf8(":/images/hole_counterdrill_flat.svg"))
-            );
-        }
-    }
-    else if (HoleCutTypeString == "Countersink" || !hole->HoleCutCountersinkAngle.isReadOnly()) {
-        if (ui->DrillPointAngled->isChecked() && DepthisDimension) {
+    else if (isCountersink) {
+        if (isAngled) {
             ui->cutDiagram->setPixmap(
                 QPixmap(QString::fromUtf8(":/images/hole_countersink_angled.svg"))
             );
@@ -499,15 +491,25 @@ void TaskHoleParameters::setCutPixmap()
             );
         }
     }
-    else {
-        // investigate this case
-        if (ui->DrillPointAngled->isChecked() && DepthisDimension) {
+    else if (isCounterdrill) {
+        if (isAngled) {
             ui->cutDiagram->setPixmap(
                 QPixmap(QString::fromUtf8(":/images/hole_counterdrill_angled.svg"))
             );
         } else {
             ui->cutDiagram->setPixmap(
                 QPixmap(QString::fromUtf8(":/images/hole_counterdrill_flat.svg"))
+            );
+        }
+    }
+    else {
+        if (isAngled) {
+            ui->cutDiagram->setPixmap(
+                QPixmap(QString::fromUtf8(":/images/hole_none_angled.svg"))
+            );
+        } else {
+            ui->cutDiagram->setPixmap(
+                QPixmap(QString::fromUtf8(":/images/hole_none_flat.svg"))
             );
         }
     }
