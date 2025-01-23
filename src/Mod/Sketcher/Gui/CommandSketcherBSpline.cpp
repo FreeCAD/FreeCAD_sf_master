@@ -63,6 +63,44 @@ void ActivateBSplineHandler(Gui::Document* doc, DrawSketchHandler* handler)
     }
 }
 
+bool selectionHasBSpline()
+{
+    static auto last_time = std::chrono::steady_clock::now();
+    static bool selectionHasBSpline = false;
+
+    auto current_time = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_seconds = current_time - last_time;
+
+    if (elapsed_seconds.count() > 0.1) {
+
+        last_time = current_time;
+
+        selectionHasBSpline = false;
+
+        std::vector<Gui::SelectionObject> selection;
+        selection = Gui::Selection().getSelectionEx(0, Sketcher::SketchObject::getClassTypeId());
+        if (selection.empty()) {
+            return selectionHasBSpline;
+        }
+
+        auto* Obj = static_cast<Sketcher::SketchObject*>(selection[0].getObject());
+        const std::vector<std::string>& subNames = selection[0].getSubNames();
+        if (!subNames.empty()) {
+
+            for (auto& name : subNames) {
+                if (name.size() > 4 && name.substr(0, 4) == "Edge") {
+                    int geoId = std::atoi(name.substr(4, 4000).c_str()) - 1;
+                    if (isBSplineCurve(*Obj->getGeometry(geoId))) {
+                        selectionHasBSpline = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return selectionHasBSpline;
+}
+
 /// For a knot given by (GeoId, PosId) finds the B-Spline and the knot's
 /// index within it (by OCC numbering).
 /// Returns true if the entities are found, false otherwise.
@@ -177,7 +215,7 @@ void CmdSketcherConvertToNURBS::activated(int iMsg)
 
 bool CmdSketcherConvertToNURBS::isActive()
 {
-    return isSketcherBSplineActive(getActiveGuiDocument(), true);
+    return isCommandActive(getActiveGuiDocument(), true, true, true);
 }
 
 // Increase degree of the spline
@@ -253,7 +291,7 @@ void CmdSketcherIncreaseDegree::activated(int iMsg)
 
 bool CmdSketcherIncreaseDegree::isActive()
 {
-    return isSketcherBSplineActive(getActiveGuiDocument(), true);
+    return isCommandActive(getActiveGuiDocument(), true, true, true);
 }
 
 
@@ -336,7 +374,7 @@ void CmdSketcherDecreaseDegree::activated(int iMsg)
 
 bool CmdSketcherDecreaseDegree::isActive()
 {
-    return isSketcherBSplineActive(getActiveGuiDocument(), true);
+    return isCommandActive(getActiveGuiDocument(), true, true, true);
 }
 
 
@@ -485,7 +523,7 @@ void CmdSketcherIncreaseKnotMultiplicity::activated(int iMsg)
 
 bool CmdSketcherIncreaseKnotMultiplicity::isActive()
 {
-    return isSketcherBSplineActive(getActiveGuiDocument(), true);
+    return isCommandActive(getActiveGuiDocument(), true, true, true);
 }
 
 DEF_STD_CMD_A(CmdSketcherDecreaseKnotMultiplicity)
@@ -621,7 +659,7 @@ void CmdSketcherDecreaseKnotMultiplicity::activated(int iMsg)
 
 bool CmdSketcherDecreaseKnotMultiplicity::isActive()
 {
-    return isSketcherBSplineActive(getActiveGuiDocument(), true);
+    return isCommandActive(getActiveGuiDocument(), true, true, true);
 }
 
 
@@ -723,7 +761,7 @@ void CmdSketcherCompModifyKnotMultiplicity::updateAction(int /*mode*/)
 
 bool CmdSketcherCompModifyKnotMultiplicity::isActive()
 {
-    return isSketcherBSplineActive(getActiveGuiDocument(), false);
+    return isCommandActive(getActiveGuiDocument(), true, true, true);
 }
 
 class DrawSketchHandlerBSplineInsertKnot: public DrawSketchHandler
@@ -945,7 +983,7 @@ void CmdSketcherInsertKnot::activated(int iMsg)
 
 bool CmdSketcherInsertKnot::isActive()
 {
-    return isSketcherBSplineActive(getActiveGuiDocument(), true);
+    return isCommandActive(getActiveGuiDocument(), true, true, true);
 }
 
 DEF_STD_CMD_A(CmdSketcherJoinCurves)
@@ -1101,7 +1139,7 @@ void CmdSketcherJoinCurves::activated(int iMsg)
 
 bool CmdSketcherJoinCurves::isActive()
 {
-    return isSketcherBSplineActive(getActiveGuiDocument(), true);
+    return isCommandActive(getActiveGuiDocument(), true, true, true);
 }
 
 void CreateSketcherCommandsBSpline()
