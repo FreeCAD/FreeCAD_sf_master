@@ -497,8 +497,7 @@ void CmdSegmentationFromComponents::activated(int)
     for (auto it : sel) {
         std::string internalname = "Segments_";
         internalname += it->getNameInDocument();
-        App::DocumentObjectGroup* group = static_cast<App::DocumentObjectGroup*>(
-            doc->addObject("App::DocumentObjectGroup", internalname.c_str()));
+        auto* group = doc->addObject<App::DocumentObjectGroup>(internalname.c_str());
         std::string labelname = "Segments ";
         labelname += it->Label.getValue();
         group->Label.setValue(labelname);
@@ -576,13 +575,11 @@ void CmdMeshBoundary::activated(int)
         }
 
         if (!shape.IsNull()) {
-            Part::Feature* shapeFea =
-                static_cast<Part::Feature*>(document->addObject("Part::Feature", "Face from mesh"));
+            Part::Feature* shapeFea = document->addObject<Part::Feature>("Face from mesh");
             shapeFea->Shape.setValue(shape);
         }
         else {
-            Part::Feature* shapeFea =
-                static_cast<Part::Feature*>(document->addObject("Part::Feature", "Wire from mesh"));
+            Part::Feature* shapeFea = document->addObject<Part::Feature>("Wire from mesh");
             shapeFea->Shape.setValue(compound);
         }
     }

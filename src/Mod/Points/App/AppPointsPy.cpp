@@ -295,8 +295,7 @@ private:
                 pcFeature->purgeTouched();
             }
             else {
-                Points::Feature* pcFeature = static_cast<Points::Feature*>(
-                    pcDoc->addObject("Points::Feature", file.fileNamePure().c_str()));
+                auto* pcFeature = pcDoc->addObject<Points::Feature>(file.fileNamePure().c_str());
                 pcFeature->Points.setValue(reader->getPoints());
                 pcDoc->recomputeFeature(pcFeature);
                 pcFeature->purgeTouched();
@@ -415,8 +414,7 @@ private:
                 pcDoc = App::GetApplication().newDocument();
             }
             PointsPy* pPoints = static_cast<PointsPy*>(pcObj);
-            Points::Feature* pcFeature =
-                static_cast<Points::Feature*>(pcDoc->addObject("Points::Feature", name));
+            Points::Feature* pcFeature = pcDoc->addObject<Points::Feature>(name);
             // copy the data
             pcFeature->Points.setValue(*(pPoints->getPointKernelPtr()));
             return Py::asObject(pcFeature->getPyObject());
