@@ -11,6 +11,7 @@ include_directories(
     ${XercesC_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIR}
     ${EIGEN3_INCLUDE_DIR}
+    ${ZIPIOS_INCLUDES}
 )
 
 set(Mesh_LIBS
