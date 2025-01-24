@@ -217,210 +217,6 @@ This feature may slightly increase recomputation time.</string>
       <string>Storage</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="Gui::PrefCheckBox" name="prefSaveTransaction">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Saving transactions (Auto-save)</string>
-        </property>
-        <property name="prefEntry" stdset="0">
-         <cstring>SaveTransactions</cstring>
-        </property>
-        <property name="prefPath" stdset="0">
-         <cstring>Document</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="Gui::PrefCheckBox" name="prefDiscardTransaction">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Discard saved transaction after saving document</string>
-        </property>
-        <property name="prefEntry" stdset="0">
-         <cstring>TransactionsDiscard</cstring>
-        </property>
-        <property name="prefPath" stdset="0">
-         <cstring>Document</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="Gui::PrefCheckBox" name="prefRecovery">
-        <property name="toolTip">
-         <string>If there is a recovery file available the application will
-automatically run a file recovery when it is started.</string>
-        </property>
-        <property name="text">
-         <string>Run AutoRecovery at startup</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-        <property name="prefEntry" stdset="0">
-         <cstring>RecoveryEnabled</cstring>
-        </property>
-        <property name="prefPath" stdset="0">
-         <cstring>Document</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="Gui::PrefCheckBox" name="prefAutoSaveEnabled">
-          <property name="toolTip">
-           <string>How often a recovery file is written</string>
-          </property>
-          <property name="text">
-           <string>Save AutoRecovery information every</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-          <property name="prefEntry" stdset="0">
-           <cstring>AutoSaveEnabled</cstring>
-          </property>
-          <property name="prefPath" stdset="0">
-           <cstring>Document</cstring>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="Gui::PrefSpinBox" name="prefAutoSaveTimeout">
-          <property name="suffix">
-           <string notr="true"> min</string>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>60</number>
-          </property>
-          <property name="value">
-           <number>15</number>
-          </property>
-          <property name="prefEntry" stdset="0">
-           <cstring>AutoSaveTimeout</cstring>
-          </property>
-          <property name="prefPath" stdset="0">
-           <cstring>Document</cstring>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="4" column="0">
-       <widget class="Line" name="line1_2_3">
-        <property name="frameShape">
-         <enum>QFrame::HLine</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Sunken</enum>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="Gui::PrefCheckBox" name="prefSaveThumbnail">
-          <property name="toolTip">
-           <string>A thumbnail will be stored when document is saved</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>Save thumbnail into project file when saving document</string>
-          </property>
-          <property name="prefEntry" stdset="0">
-           <cstring>SaveThumbnail</cstring>
-          </property>
-          <property name="prefPath" stdset="0">
-           <cstring>Document</cstring>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Maximum</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>91</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Size</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="Gui::PrefSpinBox" name="prefThumbnailSize">
-          <property name="toolTip">
-           <string>Sets the size of the thumbnail that is stored in the document.
-Common sizes are 128, 256 and 512</string>
-          </property>
-          <property name="minimum">
-           <number>64</number>
-          </property>
-          <property name="maximum">
-           <number>512</number>
-          </property>
-          <property name="value">
-           <number>256</number>
-          </property>
-          <property name="prefEntry" stdset="0">
-           <cstring>ThumbnailSize</cstring>
-          </property>
-          <property name="prefPath" stdset="0">
-           <cstring>Document</cstring>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="6" column="0">
-       <widget class="Gui::PrefCheckBox" name="prefAddLogo">
-        <property name="toolTip">
-         <string>The program logo will be added to the thumbnail</string>
-        </property>
-        <property name="text">
-         <string>Add the program logo to the generated thumbnail</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-        <property name="prefEntry" stdset="0">
-         <cstring>AddThumbnailLogo</cstring>
-        </property>
-        <property name="prefPath" stdset="0">
-         <cstring>Document</cstring>
-        </property>
-       </widget>
-      </item>
       <item row="7" column="0">
        <layout class="QHBoxLayout">
         <property name="spacing">
@@ -488,6 +284,175 @@ Common sizes are 128, 256 and 512</string>
         </item>
        </layout>
       </item>
+      <item row="2" column="0">
+       <widget class="Gui::PrefCheckBox" name="prefRecovery">
+        <property name="toolTip">
+         <string>If there is a recovery file available the application will
+automatically run a file recovery when it is started.</string>
+        </property>
+        <property name="text">
+         <string>Run AutoRecovery at startup</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+        <property name="prefEntry" stdset="0">
+         <cstring>RecoveryEnabled</cstring>
+        </property>
+        <property name="prefPath" stdset="0">
+         <cstring>Document</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="Gui::PrefCheckBox" name="prefSaveTransaction">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Saving transactions (Auto-save)</string>
+        </property>
+        <property name="prefEntry" stdset="0">
+         <cstring>SaveTransactions</cstring>
+        </property>
+        <property name="prefPath" stdset="0">
+         <cstring>Document</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="Line" name="line1_2_3">
+        <property name="frameShape">
+         <enum>QFrame::HLine</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="Gui::PrefCheckBox" name="prefSaveThumbnail">
+          <property name="toolTip">
+           <string>A thumbnail will be stored when document is saved</string>
+          </property>
+          <property name="text">
+           <string>Save thumbnail into project file when saving document</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <property name="prefEntry" stdset="0">
+           <cstring>SaveThumbnail</cstring>
+          </property>
+          <property name="prefPath" stdset="0">
+           <cstring>Document</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Maximum</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>91</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Size</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Gui::PrefSpinBox" name="prefThumbnailSize">
+          <property name="toolTip">
+           <string>Sets the size of the thumbnail that is stored in the document.
+Common sizes are 128, 256 and 512</string>
+          </property>
+          <property name="minimum">
+           <number>64</number>
+          </property>
+          <property name="maximum">
+           <number>512</number>
+          </property>
+          <property name="value">
+           <number>256</number>
+          </property>
+          <property name="prefEntry" stdset="0">
+           <cstring>ThumbnailSize</cstring>
+          </property>
+          <property name="prefPath" stdset="0">
+           <cstring>Document</cstring>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="3" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="Gui::PrefCheckBox" name="prefAutoSaveEnabled">
+          <property name="toolTip">
+           <string>How often a recovery file is written</string>
+          </property>
+          <property name="text">
+           <string>Save AutoRecovery information every</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <property name="prefEntry" stdset="0">
+           <cstring>AutoSaveEnabled</cstring>
+          </property>
+          <property name="prefPath" stdset="0">
+           <cstring>Document</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Gui::PrefSpinBox" name="prefAutoSaveTimeout">
+          <property name="suffix">
+           <string notr="true"> min</string>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>60</number>
+          </property>
+          <property name="value">
+           <number>15</number>
+          </property>
+          <property name="prefEntry" stdset="0">
+           <cstring>AutoSaveTimeout</cstring>
+          </property>
+          <property name="prefPath" stdset="0">
+           <cstring>Document</cstring>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
       <item row="8" column="0">
        <layout class="QHBoxLayout">
         <property name="spacing">
@@ -511,11 +476,11 @@ Common sizes are 128, 256 and 512</string>
            <string>Backup files will get extension '.FCbak' and file names
 get date suffix according to the specified format</string>
           </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
           <property name="text">
            <string>Use date and FCBak extension</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
           <property name="prefEntry" stdset="0">
            <cstring>UseFCBakExtension</cstring>
@@ -546,6 +511,54 @@ get date suffix according to the specified format</string>
          </widget>
         </item>
        </layout>
+      </item>
+      <item row="1" column="0">
+       <widget class="Gui::PrefCheckBox" name="prefDiscardTransaction">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Discard saved transaction after saving document</string>
+        </property>
+        <property name="prefEntry" stdset="0">
+         <cstring>TransactionsDiscard</cstring>
+        </property>
+        <property name="prefPath" stdset="0">
+         <cstring>Document</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="Gui::PrefCheckBox" name="prefAddLogo">
+        <property name="toolTip">
+         <string>The program logo will be added to the thumbnail</string>
+        </property>
+        <property name="text">
+         <string>Add the program logo to the generated thumbnail</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <property name="prefEntry" stdset="0">
+         <cstring>AddThumbnailLogo</cstring>
+        </property>
+        <property name="prefPath" stdset="0">
+         <cstring>Document</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="Gui::UrlLabel" name="urlLabel">
+        <property name="text">
+         <string>Format time as string documentation</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="url">
+         <string>https://cplusplus.com/reference/ctime/strftime/</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -732,13 +745,18 @@ You can also use the form: John Doe &lt;john@doe.com&gt;</string>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>Gui::PrefCheckBox</class>
-   <extends>QCheckBox</extends>
-   <header>Gui/PrefWidgets.h</header>
+   <class>Gui::UrlLabel</class>
+   <extends>QLabel</extends>
+   <header>Gui/Widgets.h</header>
   </customwidget>
   <customwidget>
    <class>Gui::PrefSpinBox</class>
    <extends>QSpinBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefCheckBox</class>
+   <extends>QCheckBox</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
   <customwidget>
