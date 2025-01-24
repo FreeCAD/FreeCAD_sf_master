@@ -6,6 +6,7 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/src/3rdParty/libkdtree
+    ${FastSignals_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
     ${PYTHON_INCLUDE_DIRS}
     ${XercesC_INCLUDE_DIRS}
@@ -14,6 +15,7 @@ include_directories(
 )
 
 set(Mesh_LIBS
+    libfastsignals
     ${Boost_LIBRARIES}
     FreeCADBase
     FreeCADApp

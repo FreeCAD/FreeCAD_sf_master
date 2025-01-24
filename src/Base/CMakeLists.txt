@@ -10,6 +10,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${FastSignals_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
     ${PYTHON_INCLUDE_DIRS}
     ${XercesC_INCLUDE_DIRS}
@@ -61,7 +62,7 @@ include_directories(
 )
 list(APPEND FreeCADBase_LIBS ${QtCore_LIBRARIES})
 
-list(APPEND FreeCADBase_LIBS fmt::fmt)
+list(APPEND FreeCADBase_LIBS libfastsignals fmt::fmt)
 
 if (BUILD_DYNAMIC_LINK_PYTHON)
     list(APPEND FreeCADBase_LIBS ${PYTHON_LIBRARIES})

@@ -28,7 +28,7 @@
 
 #include <QCheckBox>
 
-#include <boost_signals2.hpp>
+#include <libfastsignals/signal.h>
 
 #include <Base/BoundBox.h>
 #include <Gui/TaskView/TaskDialog.h>
@@ -174,8 +174,8 @@ private:
 
     bool hidden, smooth;
     bool autodims;
-    boost::signals2::scoped_connection connectDocumentDeletedObject;
-    boost::signals2::scoped_connection connectApplicationDeletedDocument;
+    fastsignals::scoped_connection connectDocumentDeletedObject;
+    fastsignals::scoped_connection connectApplicationDeletedDocument;
 };
 
 

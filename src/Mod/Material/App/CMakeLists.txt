@@ -12,6 +12,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${FastSignals_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
     ${PYTHON_INCLUDE_DIRS}
     ${XercesC_INCLUDE_DIRS}
@@ -21,6 +22,7 @@ include_directories(
 link_directories(${YAML_CPP_LIBRARY_DIR})
 
 set(Materials_LIBS
+    libfastsignals
     ${Boost_LIBRARIES}
     FreeCADApp
 )

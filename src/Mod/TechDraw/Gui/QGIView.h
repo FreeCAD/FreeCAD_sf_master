@@ -25,7 +25,7 @@
 
 #include <Mod/TechDraw/TechDrawGlobal.h>
 
-#include <boost_signals2.hpp>
+#include <libfastsignals/signal.h>
 
 #include <QColor>
 #include <QFont>

@@ -274,7 +274,7 @@ private:
     friend class TreeParams;
     friend class TreeWidgetItemDelegate;
 
-    using Connection = boost::signals2::connection;
+    using Connection = fastsignals::connection;
     Connection connectNewDocument;
     Connection connectDelDocument;
     Connection connectRenDocument;
@@ -381,7 +381,7 @@ private:
     ExpandInfoPtr _ExpandInfo;
     void restoreItemExpansion(const ExpandInfoPtr &, DocumentObjectItem *);
 
-    using Connection = boost::signals2::connection;
+    using Connection = fastsignals::connection;
     Connection connectNewObject;
     Connection connectDelObject;
     Connection connectChgObject;
@@ -475,7 +475,7 @@ private:
     DocumentItem *myOwner;
     DocumentObjectDataPtr myData;
     std::vector<std::string> mySubs;
-    using Connection = boost::signals2::connection;
+    using Connection = fastsignals::connection;
     int previousStatus;
     int selected;
     bool populated;

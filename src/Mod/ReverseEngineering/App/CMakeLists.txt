@@ -20,6 +20,7 @@ endif ()
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/src
+    ${FastSignals_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
     ${OCC_INCLUDE_DIR}
     ${PYTHON_INCLUDE_DIRS}
