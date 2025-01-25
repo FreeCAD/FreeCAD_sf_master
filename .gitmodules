@@ -10,5 +10,5 @@
 [submodule "src/3rdParty/libE57Format"]
 	path = src/3rdParty/libE57Format
 	url = https://github.com/asmaloney/libE57Format
-	branch = v2.3.0
+	branch = v3.2.0
 
