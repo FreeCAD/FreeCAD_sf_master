@@ -33,7 +33,7 @@
 #endif
 
 
-class ElideLabel : public QLabel {
+class GuiExport ElideLabel : public QLabel {
     Q_OBJECT
 
 public:

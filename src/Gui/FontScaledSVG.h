@@ -33,7 +33,7 @@
 #include <QFontMetrics>
 #endif
 
-class FontScaledSVG : public QWidget {
+class GuiExport FontScaledSVG : public QWidget {
     Q_OBJECT
 
 public:
