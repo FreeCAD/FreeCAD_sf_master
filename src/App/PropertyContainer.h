@@ -305,6 +305,43 @@ private: \
 /// Like PROPERTY_HEADER, but with overridden methods declared as such
 #define PROPERTY_HEADER_WITH_OVERRIDE(_class_) \
   TYPESYSTEM_HEADER_WITH_OVERRIDE(); \
+public: \
+  static constexpr char* getClassName() {\
+    /* TODO: use consteval when c++20 is available */ \
+    static_assert(sizeof(_class_) > 0, "Class is not complete"); \
+    \
+    constexpr const char* sClass = #_class_; \
+    constexpr std::string_view vClass {sClass}; \
+    static_assert(vClass[0] != '\0', "Class name must not be empty"); \
+    static_assert(std::is_base_of<Base::BaseClass, _class_>::value, \
+                  "Class must be derived from App::BaseClass"); \
+    \
+    constexpr bool isSubClassOfDocObj = std::is_base_of<App::DocumentObject, _class_>::value && \
+                                        !std::is_same<App::DocumentObject, _class_>::value; \
+    if constexpr (isSubClassOfDocObj) { \
+      constexpr auto pos = vClass.find("::"); \
+      static_assert(pos != std::string_view::npos, \
+                    "Class name must be fully qualified for document object derived classes"); \
+      static_assert(pos != 0, "Namespace must not be empty"); \
+      \
+      constexpr auto vNamespace = vClass.substr(0, pos); \
+      constexpr std::string_view filePath = __FILE__; \
+      constexpr auto posAfterSrcMod =  filePath.find("/src/Mod/"); \
+      if constexpr (constexpr bool hasSrcModInPath = posAfterSrcMod != std::string_view::npos) { \
+        constexpr auto pathAfterSrcMod = filePath.substr(posAfterSrcMod + 9); \
+        /* some workarounds are needed, if CI is ok in the future, remove these: \
+          - isSubClassOfDocObj shouldn't be needed, but it is for some compilers \
+          - allowing `Path` until it's been properly renamed */ \
+        constexpr bool workarounds = !isSubClassOfDocObj || vNamespace == "Path"; \
+        /* TODO: use `starts_with` instead of `find` when c++20 is available */ \
+        constexpr bool isPathOk = pathAfterSrcMod.find(vNamespace) != std::string_view::npos; \
+        static_assert(workarounds || isPathOk, \
+                      "Classes in `src/Mod` needs to be in a directory with the same name as" \
+                      " the namespace in order to load correctly"); \
+      } \
+    } \
+    return sClass; \
+  } \
 protected: \
   static const App::PropertyData * getPropertyDataPtr(void); \
   const App::PropertyData &getPropertyData(void) const override; \
