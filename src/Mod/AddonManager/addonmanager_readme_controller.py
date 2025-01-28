@@ -21,11 +21,13 @@
 # *                                                                         *
 # ***************************************************************************
 
-""" A Qt Widget for displaying Addon README information """
+"""A Qt Widget for displaying Addon README information"""
 
 import FreeCAD
 from Addon import Addon
+from addonmanager_metadata import MetadataReader
 import addonmanager_utilities as utils
+import xml.etree.ElementTree
 
 from enum import IntEnum, Enum, auto
 from html.parser import HTMLParser
@@ -36,6 +38,8 @@ import NetworkManager
 translate = FreeCAD.Qt.translate
 
 from PySide import QtCore, QtGui
+
+import addonmanager_freecad_interface as fci
 
 
 class ReadmeDataType(IntEnum):
@@ -60,11 +64,11 @@ class ReadmeController(QtCore.QObject):
         self.readme_data_type = None
         self.addon: Optional[Addon] = None
         self.stop = True
-        self.widget = widget
+        self.widget = widget  # the browser
         self.widget.load_resource.connect(self.loadResource)
         self.widget.follow_link.connect(self.follow_link)
 
-    def set_addon(self, repo: Addon):
+    def set_addon(self, repo: Addon, document: int):
         """Set which Addon's information is displayed"""
 
         self.addon = repo
@@ -83,7 +87,31 @@ class ReadmeController(QtCore.QObject):
                 )
                 return
         else:
-            self.url = utils.get_readme_url(repo)
+            # TODO: if CHANGELOG, CONTRIBUTING, LICENSE are added to metadata specification we can get
+            # the links to documents from online package.xml file., -> enhance this block
+            # else -> we can attempt to use hardcoded values; remove this block
+            package_url = utils.get_metadata_url(repo)
+            try:
+                metadata = MetadataReader.from_url(package_url)
+                print("metadata ===============================")
+                print(metadata)
+                print("\n")
+            except xml.etree.ElementTree.ParseError:
+                fci.Console.PrintWarning(
+                    "An invalid or corrupted package.xml file was downloaded for"
+                )
+                fci.Console.PrintWarning(f" {package_url}... ignoring the bad data.\n")
+
+            # Attempt to read raw URLs from hardcoded guesses
+            if document == 0:  # README
+                self.url = utils.get_readme_url(repo)
+            elif document == 1:  # CHANGELOG
+                self.url = utils.get_changelog_url(repo)
+            elif document == 2:  # CONTRIBUTING
+                self.url = utils.get_contrib_url(repo)
+            elif document == 3:  # LICENSE
+                self.url = utils.get_license_url(repo)
+
         self.widget.setUrl(self.url)
 
         self.widget.setText(
