@@ -228,8 +228,7 @@ private:
             std::string gcode = buffer.str();
             Path::Toolpath path;
             path.setFromGCode(gcode);
-            Path::Feature* object = static_cast<Path::Feature*>(
-                pcDoc->addObject("Path::Feature", file.fileNamePure().c_str()));
+            Path::Feature* object = pcDoc->addObject<Path::Feature>(file.fileNamePure().c_str());
             object->Path.setValue(path);
             pcDoc->recompute();
         }
@@ -255,8 +254,7 @@ private:
                 pcDoc = App::GetApplication().newDocument();
             }
             Path::PathPy* pPath = static_cast<Path::PathPy*>(pcObj);
-            Path::Feature* pcFeature =
-                static_cast<Path::Feature*>(pcDoc->addObject("Path::Feature", name));
+            Path::Feature* pcFeature = pcDoc->addObject<Path::Feature>(name);
             Path::Toolpath* pa = pPath->getToolpathPtr();
             if (!pa) {
                 throw Py::Exception(PyExc_ReferenceError, "object doesn't reference a valid path");
