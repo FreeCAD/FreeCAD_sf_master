@@ -59,8 +59,6 @@ enum class EdgeClass : int {
     SEAM,
     HARD
 };
-// TODO: when transitioning to C++ 20
-// using enum GeomType;
 
 enum class GeomType : int {
     NOTDEF,
@@ -72,16 +70,12 @@ enum class GeomType : int {
     BSPLINE,
     GENERIC
 };
-// TODO: when transitioning to C++ 20
-// using enum GeomType;
 
 enum class SourceType : int {
     GEOMETRY,
     COSMETICEDGE,
     CENTERLINE
 };
-// TODO: when transitioning to C++ 20
-// using enum SourceType;
 
 template <typename T, typename=std::enable_if_t<
     std::is_same_v<EdgeClass, T> ||
