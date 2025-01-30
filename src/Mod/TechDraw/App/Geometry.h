@@ -45,22 +45,24 @@ namespace TechDraw {
 
 class DrawViewPart;
 
-enum ExtractionType {               //obs
+enum class ExtractionType : int {               //obs
     Plain,
     WithHidden,
     WithSmooth
 };
 
-enum edgeClass {
-    ecNONE,  // Not used, OCC index starts at 1
-    ecUVISO,
-    ecOUTLINE,
-    ecSMOOTH,
-    ecSEAM,
-    ecHARD
+enum class EdgeClass : int {
+    NONE,  // Not used, OCC index starts at 1
+    UVISO,
+    OUTLINE,
+    SMOOTH,
+    SEAM,
+    HARD
 };
+// TODO: when transitioning to C++ 20
+// using enum GeomType;
 
-enum GeomType {
+enum class GeomType : int {
     NOTDEF,
     CIRCLE,
     ARCOFCIRCLE,
@@ -70,12 +72,27 @@ enum GeomType {
     BSPLINE,
     GENERIC
 };
+// TODO: when transitioning to C++ 20
+// using enum GeomType;
 
-enum SourceType {
-    GEOM,
-    COSEDGE,
+enum class SourceType : int {
+    GEOMETRY,
+    COSMETICEDGE,
     CENTERLINE
 };
+// TODO: when transitioning to C++ 20
+// using enum SourceType;
+
+template <typename T, typename=std::enable_if_t<
+    std::is_same_v<EdgeClass, T> ||
+    std::is_same_v<ExtractionType, T> ||
+    std::is_same_v<GeomType, T> ||
+    std::is_same_v<SourceType, T>
+>>
+std::ostream& operator<<(std::ostream& out, const T& type) {
+    out << static_cast<int>(type);
+    return out;
+}
 
 class BaseGeom;
 using BaseGeomPtr = std::shared_ptr<BaseGeom>;
@@ -131,8 +148,8 @@ class TechDrawExport BaseGeom : public std::enable_shared_from_this<BaseGeom>
         // attribute setters and getters
         GeomType getGeomType() { return geomType; }
         void setGeomType(GeomType type) { geomType = type; }
-        edgeClass getClassOfEdge() { return classOfEdge; }
-        void setClassOfEdge(edgeClass newClass) { classOfEdge = newClass; }
+        EdgeClass getClassOfEdge() { return classOfEdge; }
+        void setClassOfEdge(EdgeClass newClass) { classOfEdge = newClass; }
         bool getHlrVisible() { return hlrVisible; }
         void setHlrVisible(bool state) { hlrVisible = state; }
         bool getReversed()  { return reversed; }
@@ -143,8 +160,8 @@ class TechDrawExport BaseGeom : public std::enable_shared_from_this<BaseGeom>
         void setOCCEdge(TopoDS_Edge newEdge)  { occEdge = newEdge; }
         bool getCosmetic()  { return cosmetic; }
         void setCosmetic (bool state)  { cosmetic = state; }
-        int source() { return m_source; }
-        void source(int s) { m_source = s; }
+        SourceType source() { return m_source; }
+        void source(SourceType s) { m_source = s; }
         int sourceIndex() { return m_sourceIndex; }
         void sourceIndex(int si) { m_sourceIndex = si; }
         std::string getCosmeticTag() { return cosmeticTag; }
@@ -161,14 +178,14 @@ protected:
 
         GeomType geomType;
         ExtractionType extractType;     //obs
-        edgeClass classOfEdge;
+        EdgeClass classOfEdge;
         bool hlrVisible;
         bool reversed;
         int ref3D;                      //obs?
         TopoDS_Edge occEdge;            //projected Edge
         bool cosmetic;
         //TODO: all these attributes should be private
-        int m_source;         //0 - geom, 1 - cosmetic edge, 2 - centerline
+        SourceType m_source;
         int m_sourceIndex;
         std::string cosmeticTag;
         boost::uuids::uuid tag;
