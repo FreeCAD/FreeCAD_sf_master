@@ -30,6 +30,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QProcess>
 #include <QStandardPaths>
 #include <QUrl>
 #endif
@@ -186,6 +187,39 @@ QByteArray loadFCStdThumbnail(const std::string& pathToFCStdFile)
     return {};
 }
 
+/// Attempt to generate a thumbnail image from a file using f3d or load from cache
+/// \returns The image bytes, or an empty QByteArray (if thumbnail generation fails)
+QByteArray getF3dThumbnail(const std::string& pathToFile)
+{
+    QString thumbnailPath = getUniquePNG(pathToFile);
+    if (!useCachedPNG(thumbnailPath.toStdString(), pathToFile)) {
+        ParameterGrp::handle hGrp = App::GetApplication().GetParameterGroupByPath(
+            "User parameter:BaseApp/Preferences/Mod/Start");
+        auto f3d = QString::fromUtf8(hGrp->GetASCII("f3d", "f3d").c_str());
+        const int resolution = 128;
+        QStringList args;
+        args << QLatin1String("--config=thumbnail") << QLatin1String("--load-plugins=occt")
+             << QLatin1String("--verbose=quiet") << QLatin1String("--output=") + thumbnailPath
+             << QLatin1String("--resolution=") + QString::number(resolution) + QLatin1String(",")
+                + QString::number(resolution)
+             << QString::fromStdString(pathToFile);
+
+        QProcess process;
+        process.start(f3d, args);
+        process.waitForFinished();
+        if (process.exitCode() != 0) {
+            return {};
+        }
+    }
+
+    QFile thumbnailFile(thumbnailPath);
+    if (thumbnailFile.exists()) {
+        thumbnailFile.open(QIODevice::OpenModeFlag::ReadOnly);
+        return thumbnailFile.readAll();
+    }
+    return {};
+}
+
 FileStats getFileInfo(const std::string& path)
 {
     FileStats result;
@@ -282,12 +316,20 @@ void DisplayedFilesModel::addFile(const QString& filePath)
     if (!qfi.isReadable()) {
         return;
     }
+
     if (!freecadCanOpen(qfi.suffix())) {
         return;
     }
+
     _fileInfoCache.emplace_back(getFileInfo(filePath.toStdString()));
     if (qfi.suffix().toLower() == QLatin1String("fcstd")) {
         auto thumbnail = loadFCStdThumbnail(filePath.toStdString());
+        if (!thumbnail.isEmpty()) {
+            _imageCache.insert(filePath, thumbnail);
+        }
+    }
+    else {
+        auto thumbnail = getF3dThumbnail(filePath.toStdString());
         if (!thumbnail.isEmpty()) {
             _imageCache.insert(filePath, thumbnail);
         }
