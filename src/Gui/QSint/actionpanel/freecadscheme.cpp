@@ -29,6 +29,7 @@
 #include <QImage>
 #include <QPainter>
 #include <QPalette>
+#include <QHash>
 
 
 namespace QSint
@@ -262,35 +263,54 @@ QPixmap SystemPanelScheme::drawFoldIcon(const QPalette& palette, bool fold, bool
 
 QString SystemPanelScheme::systemStyle(const QPalette& p) const
 {
-    QColor headerBackground = p.color(QPalette::Highlight);
-    QColor headerLabelText = p.color(QPalette::HighlightedText);
-    QColor headerLabelTextOver = p.color(QPalette::BrightText);
-    QColor groupBorder = p.color(QPalette::Mid);
-    QColor disabledActionText = p.color(QPalette::Disabled, QPalette::Text);
-    QColor actionSelectedBg = p.color(QPalette::Active, QPalette::Light);
-    QColor actionSelectedText = p.color(QPalette::Active, QPalette::ButtonText);
-    QColor actionSelectedBorder = p.color(QPalette::Active, QPalette::Highlight);
+    QString headerBackground = p.color(QPalette::Highlight).name();
+    QString headerLabelText = p.color(QPalette::HighlightedText).name();
+    QString headerLabelTextOver = p.color(QPalette::BrightText).name();
+    QString groupBorder = p.color(QPalette::Mid).name();
+    QString disabledActionText = p.color(QPalette::Disabled, QPalette::Text).name();
+    QString actionSelectedBg = p.color(QPalette::Active, QPalette::Light).name();
+    QString actionSelectedText = p.color(QPalette::Active, QPalette::ButtonText).name();
+    QString actionSelectedBorder = p.color(QPalette::Active, QPalette::Highlight).name();
+    QString panelBackground = p.color(QPalette::Window).name();
+    QString groupBackground = p.color(QPalette::Button).name();
+
+    QHash<QString, QString> replacements;
+    replacements["headerBackground"] = headerBackground;
+    replacements["headerLabelText"] = headerLabelText;
+    replacements["headerLabelTextOver"] = headerLabelTextOver;
+    replacements["groupBorder"] = groupBorder;
+    replacements["disabledActionText"] = disabledActionText;
+    replacements["actionSelectedBg"] = actionSelectedBg;
+    replacements["actionSelectedText"] = actionSelectedText;
+    replacements["actionSelectedBorder"] = actionSelectedBorder;
+    replacements["panelBackground"] = panelBackground;
+    replacements["groupBackground"] = groupBackground;
 
     QString style = QString::fromLatin1(
+        "QFrame[class='panel'] {"
+            "background-color: {panelBackground};"
+        "}"
+
         "QSint--ActionGroup QFrame[class='header'] {"
             "border: 1px solid transparent;"
-            "background-color: %1;"
+            "background-color: {headerBackground};"
         "}"
 
         "QSint--ActionGroup QToolButton[class='header'] {"
             "text-align: left;"
-            "color: %2;"
+            "color: {headerLabelText};"
             "background-color: transparent;"
             "border: 1px solid transparent;"
             "font-weight: bold;"
         "}"
 
         "QSint--ActionGroup QToolButton[class='header']:hover {"
-            "color: %3;"
+            "color: {headerLabelTextOver};"
         "}"
 
         "QSint--ActionGroup QFrame[class='content'] {"
-            "border: 1px solid %4;"
+            "border: 1px solid {groupBorder};"
+            "background-color: {groupBackground};"
         "}"
 
         "QSint--ActionGroup QFrame[class='content'][header='true'] {"
@@ -304,7 +324,7 @@ QString SystemPanelScheme::systemStyle(const QPalette& p) const
         "}"
 
         "QSint--ActionGroup QToolButton[class='action']:!enabled {"
-            "color: %5;"
+            "color: {disabledActionText};"
         "}"
 
         "QSint--ActionGroup QToolButton[class='action']:hover {"
@@ -312,24 +332,19 @@ QString SystemPanelScheme::systemStyle(const QPalette& p) const
         "}"
 
         "QSint--ActionGroup QToolButton[class='action']:focus {"
-            "color: %7;"
-            "border: 1px dotted %8;"
+            "color: {actionSelectedText};"
+            "border: 1px dotted {actionSelectedBorder};"
         "}"
 
         "QSint--ActionGroup QToolButton[class='action']:on {"
-            "background-color: %6;"
-            "color: %7;"
+            "background-color: {actionSelectedBg};"
+            "color: {actionSelectedText};"
         "}"
-    ).arg(
-        headerBackground.name(),
-        headerLabelText.name(),
-        headerLabelTextOver.name(),
-        groupBorder.name(),
-        disabledActionText.name(),
-        actionSelectedBg.name(),
-        actionSelectedText.name(),
-        actionSelectedBorder.name()
     );
+
+    for (auto it = replacements.begin(); it != replacements.end(); ++it) {
+        style.replace("{" + it.key() + "}", it.value());
+    }
 
     return style;
 }
