@@ -1728,10 +1728,11 @@ void TreeWidget::mousePressEvent(QMouseEvent* event)
                 int visible = -1;
                 if (parent) {
                     visible = parent->isElementVisible(objname);
+                    if (visible >= 0) {
+                       parent->setElementVisible(objname, !visible);
+                    }
                 }
-                if (parent && visible >= 0) {
-                    parent->setElementVisible(objname, !visible);
-                } else {
+				else {
                     visible = obj->Visibility.getValue();
                     obj->Visibility.setValue(!visible);
                 }
@@ -1760,10 +1761,10 @@ void TreeWidget::mouseDoubleClickEvent(QMouseEvent* event)
             if (doc->getDocument()->testStatus(App::Document::PartialDoc)) {
                 contextItem = item;
                 onReloadDoc();
-                return;
             }
-            if (!doc->setActiveView())
+            else if (!doc->setActiveView()) {
                 doc->setActiveView(nullptr, View3DInventor::getClassTypeId());
+            }
         }
         else if (item->type() == TreeWidget::ObjectType) {
             auto objitem = static_cast<DocumentObjectItem*>(item);
@@ -2263,13 +2264,12 @@ bool TreeWidget::dropInDocument(QDropEvent* event, TargetItemInfo& targetInfo,
 
                 // check if the object has been deleted
                 obj = doc->getObject(info.obj.c_str());
-                if (!obj || !obj->isAttachedToDocument()) {
+	        if (!obj || !obj->isAttachedToDocument()) {
                     continue;
                 }
                 droppedObjs.push_back(obj);
                 if (propPlacement) {
                     propPlacement->setValueIfChanged(Base::Placement(mat));
-                }
             }
             else {
                 std::ostringstream ss;
