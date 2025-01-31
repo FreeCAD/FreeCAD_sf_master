@@ -3055,9 +3055,6 @@ int SketchObject::fillet(int GeoId1, int GeoId2, const Base::Vector3d& refPnt1,
                 Base::Vector3d refp1 = curve1->pointAtParameter(refparam1);
                 Base::Vector3d refp2 = curve2->pointAtParameter(refparam2);
 
-                // Base::Console().Log("refpoints:
-                // (%f,%f,%f);(%f,%f,%f)",refp1.x,refp1.y,refp1.z,refp2.x,refp2.y,refp2.z);
-
                 Base::Vector3d normalintersect(
                     (-dir1.x * dir2.x * refp1.y + dir1.x * dir2.x * refp2.y
                      - dir1.x * dir2.y * refp2.x + dir2.x * dir1.y * refp1.x)
@@ -11022,7 +11019,6 @@ int SketchObject::port_reversedExternalArcs(bool justAnalyze)
 bool SketchObject::AutoLockTangencyAndPerpty(Constraint* cstr, bool bForce, bool bLock)
 {
     try {
-        // assert ( cstr->Type == Tangent  ||  cstr->Type == Perpendicular);
         /*tangency type already set. If not bForce - don't touch.*/
         if (cstr->getValue() != 0.0 && !bForce)
             return true;
