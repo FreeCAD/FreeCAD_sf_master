@@ -146,8 +146,7 @@ protected:
         _docName = App::GetApplication().getUniqueDocumentName("test");
         auto _doc = App::GetApplication().newDocument(_docName.c_str(), "testUser");
         // TODO: Do we add a body newName, or is just adding sketch sufficient for this test?
-        _sketchobj =
-            static_cast<Sketcher::SketchObject*>(_doc->addObject("Sketcher::SketchObject"));
+        _sketchobj = _doc->addObject<Sketcher::SketchObject>();
     }
 
     void TearDown() override
