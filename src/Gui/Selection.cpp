@@ -25,6 +25,7 @@
 
 #ifndef _PreComp_
 # include <array>
+# include <set>
 # include <boost/algorithm/string/predicate.hpp>
 # include <QApplication>
 #endif
@@ -52,6 +53,7 @@
 #include "SelectionFilterPy.h"
 #include "SelectionObserverPython.h"
 #include "Tree.h"
+#include "ViewProvider.h"
 #include "ViewProviderDocumentObject.h"
 
 
@@ -420,6 +422,15 @@ void SelectionSingleton::notify(SelectionChanges &&Chng)
             notify = true;
         }
         if(notify) {
+            // Notify the view provider of the object as well.
+            if(const auto* doc = App::GetApplication().getDocument(msg.pDocName)) {
+                if(const auto* obj = doc->getObject(msg.pObjectName)) {
+                    if (auto* vp = Application::Instance->getViewProvider(obj)) {
+                        vp->onSelectionChanged(msg);
+                    }
+                }
+            }
+
             Notify(msg);
             try {
                 signalSelectionChanged(msg);
@@ -1453,6 +1464,22 @@ void SelectionSingleton::clearCompleteSelection(bool clearPreSelect)
         Application::Instance->macroManager()->addLine(MacroManager::Cmt,
                 clearPreSelect?"Gui.Selection.clearSelection()"
                               :"Gui.Selection.clearSelection(False)");
+
+    // Send the clear selection notification to all view providers associated with the
+    // objects being deselected.
+
+    std::set<ViewProvider*> viewProviders;
+    for (_SelObj& sel : _SelList) {
+        auto vp = Application::Instance->getViewProvider(sel.pObject);
+        if (vp) {
+            viewProviders.insert(vp);
+        }
+    }
+
+    for (auto& vp : viewProviders) {
+        SelectionChanges Chng(SelectionChanges::ClrSelection);
+        vp->onSelectionChanged(Chng);
+    }
 
     _SelList.clear();
 
