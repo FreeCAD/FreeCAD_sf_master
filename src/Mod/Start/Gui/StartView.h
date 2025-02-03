@@ -98,11 +98,10 @@ protected:
 
 private:
     void retranslateUi();
-
+    bool showExamples;
     QStackedWidget* _contents = nullptr;
     Start::RecentFilesModel _recentFilesModel;
     Start::ExamplesModel _examplesModel;
-
     QLabel* _newFileLabel;
     QLabel* _examplesLabel;
     QLabel* _recentFilesLabel;
