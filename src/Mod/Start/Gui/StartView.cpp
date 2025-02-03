@@ -191,7 +191,7 @@ StartView::StartView(QWidget* parent)
     auto hGrp = App::GetApplication().GetParameterGroupByPath(
         "User parameter:BaseApp/Preferences/Mod/Start");
     auto cardSpacing = hGrp->GetInt("FileCardSpacing", 15);  // NOLINT
-    showExamples = hGrp->GetBool("ShowExamples", true); // NOLINT
+    showExamples = hGrp->GetBool("ShowExamples", true);      // NOLINT
 
     // First start page
     auto firstStartScrollArea = gsl::owner<QScrollArea*>(new QScrollArea());
